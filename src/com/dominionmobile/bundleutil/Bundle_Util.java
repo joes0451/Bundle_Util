@@ -3106,9 +3106,8 @@ public class Bundle_Util
                 if ( iOS == WINDOWS )
                     sb.append("\n");
                 
-                System.out.println("(Command)sb: '"+sb.toString()+"'");
+                //System.out.println("(Command)sb: '"+sb.toString()+"'");
                 
-/*                
                 // Set up for IOBgThread output..
                 commandS = sb.toString();
 
