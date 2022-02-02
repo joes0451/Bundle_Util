@@ -10,7 +10,7 @@ SilentInstall silent
 AutoCloseWindow true
 ShowInstDetails nevershow
  
-!define CLASSPATH ".;Bundle_Util-1.0.0.jar"
+!define CLASSPATH ".;Bundle_Util-1.0.1.jar"
 !define CLASS "com.dominionmobile.bundleutil.Bundle_Util"
 
 Section ""

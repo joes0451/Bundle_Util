@@ -144,11 +144,6 @@ public class Bundle_Util
     
     private static JTextPane textPane;
     private static JTextField currentPathField;
-    //private static JTextField adbCommandField;
-    //private static JList screenshotFilesJList;
-    //private static JList cameraImagesJList;
-    //private static JList uninstallJList;
-    //private static JList fileBrowserJList;
     private static JSpinner deviceSpinner;
     private static JSpinner fileSpinner;
     private static JMenuItem logcatMenuItem;
@@ -163,7 +158,6 @@ public class Bundle_Util
     private static JCheckBox connectedDeviceCheckBox;
     private static JCheckBox overwriteCheckBox;
     private static JCheckBox humanReadableSizesCheckBox;
-    //private static JCheckBox localTestingCheckBox;
     private static JCheckBoxMenuItem releaseCheckBoxMenuItem;
     private static JCheckBoxMenuItem debugCheckBoxMenuItem;
     
@@ -181,12 +175,7 @@ public class Bundle_Util
     static volatile String sListSelection;
     static volatile String commandS;
     static volatile String outputEndS;
-    static volatile String sPackageName;
-    static volatile String sDeviceIPAddress;
     static volatile String sCurrentPath;
-    static volatile String sSelectedFile;
-    static volatile String sSelectedMenu;
-    static volatile String sShowPackageNameInStatusBar;
 
     static volatile String sProjectHome;    
     static volatile String sProjectPathLead;
@@ -204,7 +193,6 @@ public class Bundle_Util
     static volatile String sStampKeyStorePassword;     
     static volatile String sStampKeyAliasPassword;    
     
-    //static volatile String sUseVerbose;
     static volatile String sDialogTitle;
     static volatile String sCommand;
     static volatile String sOutputPathFieldLbl;
@@ -260,15 +248,8 @@ public class Bundle_Util
     static volatile boolean bIOBgThreadBreak;
     static volatile boolean bLogcatOn;
     static volatile boolean bFinished;
-    static volatile boolean bKillLogcat;
     static volatile boolean bIOBgThreadFinished;
     static volatile boolean bSelectFinished;
-    static volatile boolean bInitWirelessFinished;
-    static volatile boolean bWirelessConnected;
-    static volatile boolean bDisconnectWirelessFinished;
-    static volatile boolean bWirelessEnabled;
-    static volatile boolean bUpdateFileBrowserFinished;
-    static volatile boolean bShellPsFinished;
     static volatile boolean bProjectSelected;
     static volatile boolean bHomeJustSet;
     
@@ -287,7 +268,6 @@ public class Bundle_Util
     
     static volatile int iOS;
     static volatile int iListId;
-    static volatile int iWirelessErrorCode;
     static volatile int iSelectMode;
     static volatile int iButtonCount;
     
@@ -337,8 +317,6 @@ public class Bundle_Util
 	
 	static final String SELECT_DEVICE_CANCEL = "select_device_cancel";
 	static final String SELECT_DEVICE_SUBMIT = "select_device_submit";
-	static final String ADB_COMMAND_SUBMIT = "adb_command_submit";
-	static final String ADB_COMMAND_CANCEL = "adb_command_cancel";
 
 	static final String HOME = "Home";
 	
@@ -382,7 +360,6 @@ public class Bundle_Util
 		SingletonClass sc = SingletonClass.getInstance();
 		sc.sBundlePath = "";
 		sc.bConnected = false;
-		
 		
 		CreateGui();
 		RefreshProperties();
@@ -696,7 +673,6 @@ public class Bundle_Util
 		projectMenu.add(debugCheckBoxMenuItem);
 		menuBar.add(projectMenu);
 		
-		
 		JMenu buildMenu = new JMenu("Build");
 		JMenuItem buildBundleMenuItem = new JMenuItem("build-bundle");
 		buildBundleMenuItem.addActionListener(actListener);
@@ -707,7 +683,6 @@ public class Bundle_Util
 		buildMenu.add(buildApksMenuItem);
 		menuBar.add(buildMenu);
 
-		
 		JMenu extractMenu = new JMenu("Extract");
 		JMenuItem extractApksMenuItem = new JMenuItem("extract-apks");
 		extractApksMenuItem.addActionListener(actListener);
@@ -1079,7 +1054,6 @@ public class Bundle_Util
 				while ( ! isInterrupted() )
 				{
 					//System.out.println("--TOP--");
-					// Kill for Logcat..					
 					if ( bBreakOut )
 						break;
 					
@@ -1167,9 +1141,7 @@ public class Bundle_Util
                     {
                         if ( lDif > 0 )
                             Thread.sleep(40);
-                            //Thread.sleep(45);
                         else
-                            //Thread.sleep(30);
                             Thread.sleep(20);
                     }
 
@@ -2518,7 +2490,9 @@ public class Bundle_Util
                     if ( aabPathField != null )
                         sAabPath = aabPathField.getText();
                     
+                    sb.append('"');
                     sb.append(sAabPath);
+                    sb.append('"');
                 }
                 
                 if ( bShowApksPath )
@@ -2526,8 +2500,10 @@ public class Bundle_Util
                     sb.append(" --apks=");
                     if ( apksPathField != null )
                         sApksPath = apksPathField.getText();
-                    
+
+                    sb.append('"');                    
                     sb.append(sApksPath);
+                    sb.append('"');
                 }
                 
                 if ( bShowDeviceSpecPath )
@@ -2542,7 +2518,9 @@ public class Bundle_Util
                     if ( deviceSpecPathField != null )
                         sJsonPath = deviceSpecPathField.getText();
                     
+                    sb.append('"');
                     sb.append(sJsonPath);
+                    sb.append('"');
                 }
                 
                 if ( bShowOutputPathField )
@@ -2551,7 +2529,9 @@ public class Bundle_Util
                     if ( outputPathField != null )
                         sOutputPath = outputPathField.getText();
                     
+                    sb.append('"');
                     sb.append(sOutputPath);
+                    sb.append('"');
                 }
                 
                 if ( bShowModeSpinner )
@@ -3107,6 +3087,7 @@ public class Bundle_Util
                     sb.append("\n");
                 
                 //System.out.println("(Command)sb: '"+sb.toString()+"'");
+
                 
                 // Set up for IOBgThread output..
                 commandS = sb.toString();
@@ -3467,9 +3448,9 @@ public class Bundle_Util
                 if ( iOS == LINUX_MAC )
                 {
                     sb.append("export PATH=${PATH}:");
-                    sb.append("\"");
+                    sb.append('"');
                     sb.append(sJavaPath);
-                    sb.append("\"");
+                    sb.append('"');
 
                     sb.append(";java -jar ");
                     sb.append(sBundleToolJarPath);
@@ -3478,9 +3459,9 @@ public class Bundle_Util
                 else
                 {
                     sb.append("SET PATH=");
-                    sb.append("\"");
+                    sb.append('"');
                     sb.append(sJavaPath);
-                    sb.append("\"");
+                    sb.append('"');
                     sb.append(";%PATH%");
                     
                     sb.append("&&java -jar ");
@@ -3726,7 +3707,6 @@ public class Bundle_Util
                 if ( (DevicesAr != null) && (DevicesAr.size() == 1) )
                 {
                     // Set Device..
-                    //SingletonClass sc = SingletonClass.getInstance();
                     sc.bConnected = true;
                     
                     sDeviceName = (String)DevicesAr.get(0);

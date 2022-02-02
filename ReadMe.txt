@@ -6,7 +6,10 @@ Bundle_Util
 
     All other options are in config.properties.
     If you want, you can create multiple versions of an option and
-    uncomment the one you want to use for a particular project.    
+    uncomment the one you want to use for a particular project.
+
+    Changes to config.properties are automatically refreshed
+    so you don't have to restart the app.    
 
 Project Home:
     Along with the Project Home directory it also stores
@@ -29,6 +32,9 @@ Release notes:
 
     Bundle_Util 1.0.0:
         Initial version.
+        
+    Bundle_Util 1.0.1:
+        Surrounded more options using paths with double quotes.
  
         
 Please let me know of any issues so that I can fix them.
