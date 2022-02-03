@@ -1,6 +1,9 @@
 
 Bundle_Util
 
+    Go into config.properties and set the 'java_path', 'bundletool_jar_path'
+    and 'android_sdk_path' if needed.
+
     The Dialogs for each command give you the most important
     options.
 
@@ -30,15 +33,17 @@ Release and Debug Menu items:
 
 Release notes:
 
-    Bundle_Util 1.0.0:
-        Initial version.
-        
     Bundle_Util 1.0.1:
         Surrounded more options using paths with double quotes.
  
+    Bundle_Util 1.0.2:
+        New Help button shows 'help [command]'.
+        Cleanup.
+
         
 Please let me know of any issues so that I can fix them.
-Let me know what commands I should move into or out of the command Dialogs.
+Let me know what commands I should move into or out of the command Dialogs
+label changes or other improvements.
 
 joes0451@outlook.com
 

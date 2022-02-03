@@ -340,6 +340,7 @@ public class Bundle_Util
 
 	static final String REQUEST_SUBMIT = "request_submit";
 	static final String REQUEST_CANCEL = "request_cancel";
+	static final String REQUEST_HELP = "request_help";
 	
     //}}}
 
@@ -1722,6 +1723,7 @@ public class Bundle_Util
 			// ==================
 			// THREAD MUTEX
 			// ==================
+/*			
 			try
 			{
 				commandControl.acquire();			
@@ -1729,6 +1731,7 @@ public class Bundle_Util
 			catch (InterruptedException ie)
 			{
 			}
+/**/
 
 			ProcessBuilder processBuilder;
 			Process process = null;
@@ -1903,7 +1906,7 @@ public class Bundle_Util
 			// ==================
 			// THREAD MUTEX
 			// ==================
-			commandControl.release();
+			//commandControl.release();
 
 		}
 	} //}}}
@@ -2383,11 +2386,15 @@ public class Bundle_Util
 		JButton cancelButton = new JButton("Cancel");
 		cancelButton.setActionCommand("request_cancel");
 		cancelButton.addActionListener(actListener);
+
+		JButton helpButton = new JButton("Help");
+		helpButton.setActionCommand("request_help");
+		helpButton.addActionListener(actListener);
 		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(submitButton);
-		
 		buttonPanel.add(cancelButton);
+		buttonPanel.add(helpButton);
 
 		if ( (sShowCommandSummary != null) && (sShowCommandSummary.equals("true")) )
 		    requestFrame.getContentPane().add(textAreaPanel, BorderLayout.NORTH);
@@ -2412,7 +2419,7 @@ public class Bundle_Util
 			String sActionCommand = e.getActionCommand();
 			String sT = "";
 			String sProjectPath = "";    // Internal
-			StringBuffer sb;
+			StringBuffer sb = null;
 			StringBuffer sB = null;
 			StringBuffer sBNm = null;
 			StringTokenizer st;
@@ -2446,9 +2453,9 @@ public class Bundle_Util
                 if ( iOS == LINUX_MAC )
                 {
                     sb.append("export PATH=${PATH}:");
-                    sb.append("\"");
+                    sb.append('"');
                     sb.append(sJavaPath);
-                    sb.append("\"");
+                    sb.append('"');
 
                     sb.append(";java -jar ");
                     sb.append(sBundleToolJarPath);
@@ -2458,9 +2465,9 @@ public class Bundle_Util
                 else
                 {
                     sb.append("SET PATH=");
-                    sb.append("\"");
+                    sb.append('"');
                     sb.append(sJavaPath);
-                    sb.append("\"");
+                    sb.append('"');
                     sb.append(";%PATH%");
                     
                     sb.append("&&java -jar ");
@@ -2572,8 +2579,6 @@ public class Bundle_Util
                         sB.append(sT.substring(iLoc + 1));
                         sB.append('"');
                     }
-                    
-                    
                     
                     sb.append(" ");
                     sb.append(sB.toString());
@@ -3088,7 +3093,6 @@ public class Bundle_Util
                 
                 //System.out.println("(Command)sb: '"+sb.toString()+"'");
 
-                
                 // Set up for IOBgThread output..
                 commandS = sb.toString();
 
@@ -3116,6 +3120,49 @@ public class Bundle_Util
                     requestFrame.setVisible(false);
                     requestFrame.dispose();
                 }
+            }
+            else if ( REQUEST_HELP.equals(sActionCommand) )
+            {
+                sb = new StringBuffer();
+                if ( iOS == LINUX_MAC )
+                {
+                    sb.append("export PATH=${PATH}:");
+                    sb.append('"');
+                    sb.append(sJavaPath);
+                    sb.append('"');
+
+                    sb.append(";java -jar ");
+                    sb.append(sBundleToolJarPath);
+                    sb.append(" ");
+                }
+                else
+                {
+                    sb.append("SET PATH=");
+                    sb.append('"');
+                    sb.append(sJavaPath);
+                    sb.append('"');
+                    sb.append(";%PATH%");
+                    
+                    sb.append("&&java -jar ");
+                    sb.append(sBundleToolJarPath);
+                    sb.append(" ");
+                }
+                
+                sb.append("help ");
+                sb.append(sCommand);
+                
+                if ( iOS == WINDOWS )
+                    sb.append("\n");
+                
+                //System.out.println("(Command)sb: '"+sb.toString()+"'");
+
+                // Set up for IOBgThread output..
+                commandS = sb.toString();
+
+                //bIOBgThreadFinished = false;                
+                iOBgThread = new IOBgThread();
+                iOBgThread.start();
+                
             }
             else if ( REQUEST_CANCEL.equals(sActionCommand) )
             {
@@ -3561,10 +3608,6 @@ public class Bundle_Util
 					fChooser = new JFileChooser((String)sB.toString());
 				    
 				}
-				
-				
-/**/
-
 
 				fChooser.setDialogTitle("Bundle (aab) Path");
 				fChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);

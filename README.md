@@ -8,7 +8,7 @@
 * Dialogs for each command with every bundletool command supported.
 
 * Select Device:
-* Select between multiple Emulators or device.
+    Select between multiple Emulators or device.
 
 # Screenshots:
 
